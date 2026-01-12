@@ -11,4 +11,11 @@ public class DBConnection {
     public DBConnection() throws SQLException {
         connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/clothifydb", "root", "1234");
     }
+
+    public static DBConnection getInstance() throws SQLException {
+        if(instance == null){
+            instance = new DBConnection();
+        }
+        return instance;
+    }
 }
