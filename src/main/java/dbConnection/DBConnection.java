@@ -18,4 +18,8 @@ public class DBConnection {
         }
         return instance;
     }
+
+    public Connection getConnection() {
+        return connection;
+    }
 }
