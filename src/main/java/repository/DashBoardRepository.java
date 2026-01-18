@@ -74,7 +74,7 @@ public class DashBoardRepository {
         preparedStatement.executeUpdate();
     }
 
-    public void updateCustomer(Customer customer){
+    public void updateCustomer(Customer customer) throws SQLException {
         String sql = "UPDATE Customer SET CustTitle=?, CustName=?, CustEmail=?, CustAddress=?, City=?, Province=?, PostalCode=? WHERE CustID=?";
          PreparedStatement preparedStatement = DBConnection.getInstance().getConnection().prepareStatement(sql);
     }
