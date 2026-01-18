@@ -70,6 +70,6 @@ public class DashBoardRepository {
 
     public void deleteCustomer(String id) throws SQLException {
         PreparedStatement preparedStatement = DBConnection.getInstance().getConnection().prepareStatement("DELETE FROM Customer WHERE CustID = ?");
-
+        preparedStatement.setString(1, id);
     }
 }
