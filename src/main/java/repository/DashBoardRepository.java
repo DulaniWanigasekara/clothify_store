@@ -52,7 +52,10 @@ public class DashBoardRepository {
                     )
             );
         }
-
         return customers;
+    }
+
+    public void addCustomer(Customer customer){
+
     }
 }
