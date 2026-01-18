@@ -56,6 +56,7 @@ public class DashBoardRepository {
     }
 
     public void addCustomer(Customer customer){
+        PreparedStatement preparedStatement = DBConnection.getInstance().getConnection().prepareStatement("INSERT INTO Customer Values (?,?,?,?,?,?,?,?)");
 
     }
 }
