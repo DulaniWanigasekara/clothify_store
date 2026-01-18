@@ -55,7 +55,7 @@ public class DashBoardRepository {
         return customers;
     }
 
-    public void addCustomer(Customer customer){
+    public void addCustomer(Customer customer) throws SQLException {
         PreparedStatement preparedStatement = DBConnection.getInstance().getConnection().prepareStatement("INSERT INTO Customer Values (?,?,?,?,?,?,?,?)");
 
     }
