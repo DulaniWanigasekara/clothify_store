@@ -85,5 +85,6 @@ public class DashBoardRepository {
         preparedStatement.setString(5, customer.getCity());
         preparedStatement.setString(6, customer.getProvince());
         preparedStatement.setString(7, customer.getPostalCode());
+        preparedStatement.executeUpdate();
     }
 }
