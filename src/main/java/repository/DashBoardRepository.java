@@ -69,6 +69,7 @@ public class DashBoardRepository {
     }
 
     public void deleteCustomer(String id){
+        PreparedStatement preparedStatement = DBConnection.getInstance().getConnection().prepareStatement("DELETE FROM Customer WHERE CustID = ?");
 
     }
 }
