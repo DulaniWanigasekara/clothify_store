@@ -38,6 +38,20 @@ public class DashBoardRepository {
     public ObservableList<Customer> getAllCustomers() throws SQLException {
         PreparedStatement preparedStatement = DBConnection.getInstance().getConnection().prepareStatement("SELECT * FROM customer");
         ResultSet resultSet = preparedStatement.executeQuery();
+        while (resultSet.next()){
+            customers.add(
+                    new Customer(
+                            resultSet.getString("CustID"),
+                            resultSet.getString("CustTitle"),
+                            resultSet.getString("CustName"),
+                            resultSet.getString("CustEmail"),
+                            resultSet.getString("CustAddress"),
+                            resultSet.getString("City"),
+                            resultSet.getString("Province"),
+                            resultSet.getString("PostalCode")
+                    )
+            );
+        }
 
         return customers;
     }
