@@ -73,4 +73,8 @@ public class DashBoardRepository {
         preparedStatement.setString(1, id);
         preparedStatement.executeUpdate();
     }
+
+    public void updateCustomer(Customer customer){
+
+    }
 }
