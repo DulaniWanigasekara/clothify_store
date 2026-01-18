@@ -34,4 +34,8 @@ public class DashBoardRepository {
         }
         return items;
     }
+
+    public ObservableList<Customer> getAllCustomers() {
+        return customers;
+    }
 }
