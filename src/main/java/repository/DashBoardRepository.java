@@ -75,6 +75,7 @@ public class DashBoardRepository {
     }
 
     public void updateCustomer(Customer customer){
+        String sql = "UPDATE Customer SET CustTitle=?, CustName=?, CustEmail=?, CustAddress=?, City=?, Province=?, PostalCode=? WHERE CustID=?";
 
     }
 }
