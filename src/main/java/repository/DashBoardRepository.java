@@ -35,7 +35,7 @@ public class DashBoardRepository {
         return items;
     }
 
-    public ObservableList<Customer> getAllCustomers() {
+    public ObservableList<Customer> getAllCustomers() throws SQLException {
         PreparedStatement preparedStatement = DBConnection.getInstance().getConnection().prepareStatement("SELECT * FROM customer");
         return customers;
     }
