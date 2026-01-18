@@ -16,6 +16,7 @@ public class DashBoardRepository {
     ObservableList<Customer> customers = FXCollections.observableArrayList();
 
     public ObservableList<Item> getAllItem() {
+        PreparedStatement preparedStatement = DBConnection.getInstance().getConnection().prepareStatement("SELECT * FROM item");
         return items;
     }
 }
