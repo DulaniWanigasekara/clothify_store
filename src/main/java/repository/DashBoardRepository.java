@@ -36,6 +36,7 @@ public class DashBoardRepository {
     }
 
     public ObservableList<Customer> getAllCustomers() {
+        PreparedStatement preparedStatement = DBConnection.getInstance().getConnection().prepareStatement("SELECT * FROM customer");
         return customers;
     }
 }
