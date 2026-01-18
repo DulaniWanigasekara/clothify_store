@@ -67,4 +67,8 @@ public class DashBoardRepository {
         preparedStatement.setString(7, customer.getPostalCode());
         preparedStatement.executeUpdate();
     }
+
+    public void deleteCustomer(String id){
+
+    }
 }
