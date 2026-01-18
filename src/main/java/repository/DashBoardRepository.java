@@ -17,6 +17,7 @@ public class DashBoardRepository {
 
     public ObservableList<Item> getAllItem() throws SQLException {
         PreparedStatement preparedStatement = DBConnection.getInstance().getConnection().prepareStatement("SELECT * FROM item");
+        ResultSet resultSet = preparedStatement.executeQuery();
         return items;
     }
 }
