@@ -15,7 +15,7 @@ public class DashBoardRepository {
     ObservableList<Item> items = FXCollections.observableArrayList();
     ObservableList<Customer> customers = FXCollections.observableArrayList();
 
-    public ObservableList<Item> getAllItems() {
+    public ObservableList<Item> getAllItem() {
         return items;
     }
 }
