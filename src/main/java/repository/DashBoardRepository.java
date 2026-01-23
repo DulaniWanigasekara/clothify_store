@@ -5,6 +5,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import model.dto.Customer;
 import model.dto.Item;
+import model.dto.Supplier;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -93,4 +94,7 @@ public class DashBoardRepository {
         ResultSet resultSet = preparedStatement.executeQuery();
         return resultSet;
     }
+
+    public void addSupplier(Supplier supplier){}
+
 }
