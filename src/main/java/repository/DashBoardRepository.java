@@ -88,5 +88,7 @@ public class DashBoardRepository {
         preparedStatement.executeUpdate();
     }
 
-    public void getAllSupplier(){}
+    public void getAllSupplier(){
+        PreparedStatement preparedStatement = DBConnection.getInstance().getConnection().prepareStatement("SELECT * FROM supplier");
+    }
 }
