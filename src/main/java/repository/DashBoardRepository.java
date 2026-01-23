@@ -95,7 +95,7 @@ public class DashBoardRepository {
         return resultSet;
     }
 
-    public void addSupplier(Supplier supplier){
+    public void addSupplier(Supplier supplier) throws SQLException {
         PreparedStatement preparedStatement = DBConnection.getInstance().getConnection().prepareStatement("INSERT INTO Supplier VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
     }
 
