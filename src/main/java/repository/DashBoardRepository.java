@@ -4,6 +4,7 @@ import dbConnection.DBConnection;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import model.dto.Customer;
+import model.dto.Employee;
 import model.dto.Item;
 import model.dto.Supplier;
 
@@ -133,5 +134,20 @@ public class DashBoardRepository {
         PreparedStatement preparedStatement = DBConnection.getInstance().getConnection().prepareStatement("SELECT * FROM employee");
         ResultSet resultSet = preparedStatement.executeQuery();
         return resultSet;
+    }
+
+    public void addEmployee(Employee employee) throws SQLException {
+        PreparedStatement preparedStatement = DBConnection.getInstance().getConnection().prepareStatement("INSERT INTO employee (id, name, nic, dob, position, salary, contact_number, address, joined_date, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+        preparedStatement.setString(1, employee.getId());
+        preparedStatement.setString(2, employee.getName());
+        preparedStatement.setString(3, employee.getNic());
+        preparedStatement.setString(4, employee.getDob());
+        preparedStatement.setString(5, employee.getPosition());
+        preparedStatement.setDouble(6, employee.getSalary());
+        preparedStatement.setString(7, employee.getContactNumber());
+        preparedStatement.setString(8, employee.getAddress());
+        preparedStatement.setString(9, employee.getJoinedDate());
+        preparedStatement.setString(10, employee.getStatus());
+        preparedStatement.executeUpdate();
     }
 }
