@@ -115,4 +115,18 @@ public class DashBoardRepository {
         preparedStatement.executeUpdate();
     }
 
+    public void updateSupplier(Supplier supplier) throws SQLException {
+        PreparedStatement preparedStatement = DBConnection.getInstance().getConnection().prepareStatement("UPDATE supplier SET name=?, company_name=?, address=?, city=?, province=?, postal_code=?, phone=?, email=? WHERE supplier_id=?");
+        preparedStatement.setString(9, supplier.getId());
+        preparedStatement.setString(1, supplier.getName());
+        preparedStatement.setString(2, supplier.getCompanyName());
+        preparedStatement.setString(3, supplier.getAddress());
+        preparedStatement.setString(4, supplier.getCity());
+        preparedStatement.setString(5, supplier.getProvince());
+        preparedStatement.setString(6, supplier.getPostalCode());
+        preparedStatement.setString(7, supplier.getPhone());
+        preparedStatement.setString(8, supplier.getEmail());
+        preparedStatement.executeUpdate();
+    }
+
 }
