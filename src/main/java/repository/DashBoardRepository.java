@@ -150,4 +150,11 @@ public class DashBoardRepository {
         preparedStatement.setString(10, employee.getStatus());
         preparedStatement.executeUpdate();
     }
+
+    public void deleteEmployee(String id) throws SQLException {
+        PreparedStatement preparedStatement = DBConnection.getInstance().getConnection().prepareStatement("DELETE FROM employee WHERE id = ?");
+        preparedStatement.setString(1, id);
+        preparedStatement.executeUpdate();
+
+    }
 }
