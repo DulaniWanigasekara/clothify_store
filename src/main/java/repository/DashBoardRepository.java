@@ -129,4 +129,9 @@ public class DashBoardRepository {
         preparedStatement.executeUpdate();
     }
 
+    public ResultSet getAllEmployees() throws SQLException {
+        PreparedStatement preparedStatement = DBConnection.getInstance().getConnection().prepareStatement("SELECT * FROM employee");
+        ResultSet resultSet = preparedStatement.executeQuery();
+        return resultSet;
+    }
 }
