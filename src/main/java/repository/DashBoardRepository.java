@@ -107,9 +107,12 @@ public class DashBoardRepository {
         preparedStatement.setString(8, supplier.getPhone());
         preparedStatement.setString(9, supplier.getEmail());
         preparedStatement.executeUpdate();
+    }
 
-
-
+    public void deleteSupplier(String id) throws SQLException {
+        PreparedStatement preparedStatement = DBConnection.getInstance().getConnection().prepareStatement("DELETE FROM supplier WHERE supplier_id = ?");
+        preparedStatement.setString(1 ,id);
+        preparedStatement.executeUpdate();
     }
 
 }
