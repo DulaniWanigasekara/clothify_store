@@ -201,4 +201,12 @@ public class DashBoardRepository {
         preparedStatement.setString(7, item.getId());
         preparedStatement.executeUpdate();
     }
+
+    public boolean addOrder(String orderId, String id, java.sql.Date date) throws SQLException {
+        PreparedStatement preparedStatement = DBConnection.getInstance().getConnection().prepareStatement("INSERT INTO orders (OrderID, CustID, OrderDate) VALUES (?, ?, ?)");
+        preparedStatement.setString(1,orderId);
+        preparedStatement.setString(2,id);
+        preparedStatement.setDate(3,date);
+        return preparedStatement.executeUpdate()>0;
+    }
 }
