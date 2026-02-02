@@ -155,6 +155,20 @@ public class DashBoardRepository {
         PreparedStatement preparedStatement = DBConnection.getInstance().getConnection().prepareStatement("DELETE FROM employee WHERE id = ?");
         preparedStatement.setString(1, id);
         preparedStatement.executeUpdate();
+    }
 
+    public void  updateEmployee(Employee employee) throws SQLException {
+        PreparedStatement preparedStatement = DBConnection.getInstance().getConnection().prepareStatement("UPDATE employee SET name=?, nic=?, dob=?, position=?, salary=?, contact_number=?, address=?, joined_date=?, status=? WHERE id=? ");
+        preparedStatement.setString(1, employee.getName());
+        preparedStatement.setString(2, employee.getNic());
+        preparedStatement.setString(3, employee.getDob());
+        preparedStatement.setString(4, employee.getPosition());
+        preparedStatement.setDouble(5, employee.getSalary());
+        preparedStatement.setString(6, employee.getContactNumber());
+        preparedStatement.setString(7, employee.getAddress());
+        preparedStatement.setString(8, employee.getJoinedDate());
+        preparedStatement.setString(9, employee.getStatus());
+        preparedStatement.setString(10, employee.getId());
+        preparedStatement.executeUpdate();
     }
 }
