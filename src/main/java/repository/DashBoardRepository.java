@@ -189,4 +189,16 @@ public class DashBoardRepository {
         preparedStatement.setString(1, id);
         preparedStatement.executeUpdate();
     }
+
+    public void updateItem(Item item) throws SQLException {
+        PreparedStatement preparedStatement = DBConnection.getInstance().getConnection().prepareStatement("UPDATE item SET name=?, category=?, size=?, price=?, qty=?, isAvailable=? WHERE id=?");
+        preparedStatement.setString(1,item.getName());
+        preparedStatement.setString(2,item.getCategory());
+        preparedStatement.setString(3,item.getSize());
+        preparedStatement.setDouble(4,item.getPrice());
+        preparedStatement.setInt(5,item.getQty());
+        preparedStatement.setBoolean(6,item.getAvailable());
+        preparedStatement.setString(7, item.getId());
+        preparedStatement.executeUpdate();
+    }
 }
