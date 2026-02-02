@@ -183,4 +183,10 @@ public class DashBoardRepository {
         preparedStatement.setBoolean(7, item.getAvailable());
         preparedStatement.executeUpdate();
     }
+
+    public void deleteItem(String id) throws SQLException {
+        PreparedStatement preparedStatement = DBConnection.getInstance().getConnection().prepareStatement("DELETE FROM item WHERE id = ?");
+        preparedStatement.setString(1, id);
+        preparedStatement.executeUpdate();
+    }
 }
