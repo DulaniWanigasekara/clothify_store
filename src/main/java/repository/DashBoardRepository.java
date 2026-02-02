@@ -171,4 +171,16 @@ public class DashBoardRepository {
         preparedStatement.setString(10, employee.getId());
         preparedStatement.executeUpdate();
     }
+
+    public void addNewItem(Item item) throws SQLException {
+        PreparedStatement preparedStatement = DBConnection.getInstance().getConnection().prepareStatement("INSERT INTO item VALUES (?,?,?,?,?,?,?)");
+        preparedStatement.setString(1, item.getId());
+        preparedStatement.setString(2, item.getName());
+        preparedStatement.setString(3, item.getCategory());
+        preparedStatement.setString(4, item.getSize());
+        preparedStatement.setDouble(5, item.getPrice());
+        preparedStatement.setInt(6, item.getQty());
+        preparedStatement.setBoolean(7, item.getAvailable());
+        preparedStatement.executeUpdate();
+    }
 }
