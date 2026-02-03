@@ -227,4 +227,20 @@ public class DashBoardRepository {
         }
         return true;
     }
+
+    public boolean changeStock(ObservableList<Item> placeOrders) throws SQLException {
+        PreparedStatement preparedStatement = DBConnection.getInstance().getConnection().prepareStatement("UPDATE item SET qty = qty - ? WHERE id = ?");
+        for (Item item : placeOrders){
+            preparedStatement.setInt(1,item.getQty());
+            preparedStatement.setString(2,item.getId());
+            preparedStatement.addBatch();
+        }
+        int[] results = preparedStatement.executeBatch();
+        for (int res : results) {
+            if (res <= 0) {
+                return false;
+            }
+        }
+        return true;
+    }
 }
