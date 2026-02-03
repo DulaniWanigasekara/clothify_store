@@ -11,6 +11,7 @@ import model.dto.Supplier;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 
 public class DashBoardRepository {
 
@@ -256,5 +257,11 @@ public class DashBoardRepository {
         pst.setString(2, password);
         ResultSet rs = pst.executeQuery();
         return rs.next();
+    }
+
+    public ResultSet getOrdersByDate(LocalDate value) throws SQLException {
+        PreparedStatement pst = DBConnection.getInstance().getConnection().prepareStatement("SELECT * FROM orders WHERE OrderDate = ?");
+        pst.setString(1, String.valueOf(value));
+        return pst.executeQuery();
     }
 }
