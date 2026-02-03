@@ -243,4 +243,10 @@ public class DashBoardRepository {
         }
         return true;
     }
+
+    public ResultSet getAllOrder() throws SQLException {
+        PreparedStatement preparedStatement = DBConnection.getInstance().getConnection().prepareStatement("SELECT * FROM orders");
+        ResultSet resultSet = preparedStatement.executeQuery();
+        return resultSet;
+    }
 }
