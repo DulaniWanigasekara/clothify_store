@@ -264,4 +264,10 @@ public class DashBoardRepository {
         pst.setString(1, String.valueOf(value));
         return pst.executeQuery();
     }
+
+    public ResultSet getCustomerDetails(String customerID) throws SQLException {
+        PreparedStatement pst = DBConnection.getInstance().getConnection().prepareStatement("SELECT * FROM customer WHERE CustID = ?");
+        pst.setString(1, customerID);
+        return pst.executeQuery();
+    }
 }
