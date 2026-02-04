@@ -270,4 +270,10 @@ public class DashBoardRepository {
         pst.setString(1, customerID);
         return pst.executeQuery();
     }
+
+    public ResultSet getAllOrderItem(String orderId) throws SQLException {
+        PreparedStatement pst = DBConnection.getInstance().getConnection().prepareStatement("SELECT * FROM orderdetails WHERE OrderID = ?");
+        pst.setString(1, orderId);
+        return pst.executeQuery();
+    }
 }
