@@ -276,4 +276,10 @@ public class DashBoardRepository {
         pst.setString(1, orderId);
         return pst.executeQuery();
     }
+
+    public ResultSet getItem(String itemId) throws SQLException {
+        PreparedStatement pst = DBConnection.getInstance().getConnection().prepareStatement("SELECT * FROM item WHERE id = ?");
+        pst.setString(1, itemId);
+        return pst.executeQuery();
+    }
 }
