@@ -63,7 +63,7 @@ public class DashBoardController implements Initializable {
     public TextField txtCustomerId;
     public ChoiceBox<String> txtCustomerTitle;
     public TextField txtCustomerName;
-    public DatePicker txtCustomerDate;
+    public TextField txtCustomerEmail;
     public TextField txtCustomerAddress;
     public TextField txtCustomerCity;
     public TextField txtCustomerProvince;
@@ -332,8 +332,7 @@ public class DashBoardController implements Initializable {
         String id    = txtCustomerId.getText().trim();
         String title = txtCustomerTitle.getValue();
         String name  = txtCustomerName.getText().trim();
-        String dob   = txtCustomerDate.getValue() != null
-                ? txtCustomerDate.getValue().toString() : "";
+        String email   = txtCustomerEmail.getText().trim();
         String addr  = txtCustomerAddress.getText().trim();
         String city  = txtCustomerCity.getText().trim();
         String prov  = txtCustomerProvince.getText().trim();
@@ -344,14 +343,14 @@ public class DashBoardController implements Initializable {
             return null;
         }
         // email stored in dob field for this model (FXML has no email text field in customer pane)
-        return new Customer(id, title, name, dob, addr, city, prov, post);
+        return new Customer(id, title, name, email, addr, city, prov, post);
     }
 
     private void clearCustomerForm() {
         txtCustomerId.clear();
         txtCustomerTitle.setValue(null);
         txtCustomerName.clear();
-        txtCustomerDate.setValue(null);
+        txtCustomerEmail.clear();
         txtCustomerAddress.clear();
         txtCustomerCity.clear();
         txtCustomerProvince.clear();
@@ -758,7 +757,7 @@ public class DashBoardController implements Initializable {
         colCustomerId.setCellValueFactory(new PropertyValueFactory<>("id"));
         colCustomerTitle.setCellValueFactory(new PropertyValueFactory<>("title"));
         colCustomerName.setCellValueFactory(new PropertyValueFactory<>("name"));
-        colCustomerDOB.setCellValueFactory(new PropertyValueFactory<>("email")); // mapped to DOB/email field
+        colCustomerDOB.setCellValueFactory(new PropertyValueFactory<>("email"));
         colCustomerAddress.setCellValueFactory(new PropertyValueFactory<>("address"));
         colCustomerCity.setCellValueFactory(new PropertyValueFactory<>("city"));
         colCustomerProvince.setCellValueFactory(new PropertyValueFactory<>("province"));
@@ -771,6 +770,7 @@ public class DashBoardController implements Initializable {
                         txtCustomerId.setText(selected.getId());
                         txtCustomerTitle.setValue(selected.getTitle());
                         txtCustomerName.setText(selected.getName());
+                        txtCustomerEmail.setText(selected.getEmail());
                         txtCustomerAddress.setText(selected.getAddress());
                         txtCustomerCity.setText(selected.getCity());
                         txtCustomerProvince.setText(selected.getProvince());
