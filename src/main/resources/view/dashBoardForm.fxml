@@ -113,7 +113,7 @@
                     <columns>
                         <TableColumn fx:id="colCustomerId" prefWidth="67.19998168945312" text="ID" />
                         <TableColumn fx:id="colCustomerName" prefWidth="116.79998779296875" text="Name" />
-                        <TableColumn fx:id="colCustomerDOB" prefWidth="135.20001220703125" text="Date Of Birth" />
+                        <TableColumn fx:id="colCustomerDOB" prefWidth="135.20001220703125" text="Email" />
                         <TableColumn fx:id="colCustomerTitle" prefWidth="105.5999755859375" text="Title" />
                         <TableColumn fx:id="colCustomerAddress" prefWidth="253.5999755859375" text="Address" />
                         <TableColumn fx:id="colCustomerCity" prefWidth="154.4000244140625" text="City" />
@@ -124,10 +124,10 @@
                 <TextField fx:id="txtCustomerId" layoutX="195.0" layoutY="440.0" prefHeight="26.0" prefWidth="222.0" />
                 <ChoiceBox fx:id="txtCustomerTitle" layoutX="195.0" layoutY="493.0" prefHeight="26.0" prefWidth="222.0" />
                 <TextField fx:id="txtCustomerName" layoutX="518.0" layoutY="439.0" prefHeight="26.0" prefWidth="216.0" />
-                <DatePicker fx:id="txtCustomerDate" layoutX="824.0" layoutY="438.0" prefHeight="26.0" prefWidth="216.0" />
+                <TextField fx:id="txtCustomerEmail" layoutX="824.0" layoutY="438.0" prefHeight="26.0" prefWidth="216.0" promptText="e.g. john@email.com" />
                 <Label layoutX="195.0" layoutY="421.0" prefHeight="18.0" prefWidth="120.0" text="Customer ID" textFill="#fcfcfc" />
                 <Label layoutX="518.0" layoutY="420.0" prefHeight="18.0" prefWidth="120.0" text="Name" textFill="WHITE" />
-                <Label layoutX="824.0" layoutY="419.0" prefHeight="18.0" prefWidth="120.0" text="Date of Birth" textFill="WHITE" />
+                <Label layoutX="824.0" layoutY="419.0" prefHeight="18.0" prefWidth="120.0" text="Email" textFill="WHITE" />
                 <Label layoutX="195.0" layoutY="474.0" prefHeight="18.0" prefWidth="120.0" text="Title" textFill="WHITE" />
                 <TextField fx:id="txtCustomerAddress" layoutX="518.0" layoutY="493.0" prefHeight="26.0" prefWidth="216.0" />
                 <Label layoutX="519.0" layoutY="475.0" prefHeight="18.0" prefWidth="120.0" text="Address" textFill="WHITE" />
@@ -460,13 +460,99 @@
                 </Label>
             </children>
         </AnchorPane>
-        <AnchorPane fx:id="homePane" layoutX="102.0" layoutY="30.0" prefHeight="708.0" prefWidth="1236.0" style="-fx-background-color: linear-gradient(to bottom right, #1e1e2f, #2d2d44); -fx-background-radius: 20;" visible="false">
+        <AnchorPane fx:id="homePane" layoutX="102.0" layoutY="30.0" prefHeight="708.0" prefWidth="1236.0"
+                    style="-fx-background-color: linear-gradient(to bottom right, #1e1e2f, #2d2d44); -fx-background-radius: 20;"
+                    visible="false">
             <children>
-                <Label alignment="CENTER" layoutX="441.0" layoutY="33.0" prefHeight="38.0" prefWidth="300.0" text="Home" textFill="WHITE">
-                    <font>
-                        <Font name="System Bold" size="29.0" />
-                    </font>
+                <!-- Title -->
+                <Label alignment="CENTER" layoutX="400.0" layoutY="25.0" prefHeight="48.0" prefWidth="430.0"
+                       text="KAIA — Dashboard" textFill="WHITE">
+                    <font><Font name="System Bold" size="26.0" /></font>
                 </Label>
+                <Label layoutX="460.0" layoutY="70.0" text="Welcome back! Here's your store at a glance." textFill="#aaaacc">
+                    <font><Font size="13.0" /></font>
+                </Label>
+
+                <!-- Stat Card: Customers -->
+                <AnchorPane layoutX="80.0" layoutY="105.0" prefHeight="110.0" prefWidth="230.0"
+                            style="-fx-background-color:#2d3e50; -fx-background-radius:14;">
+                    <Label layoutX="16.0" layoutY="14.0" text="👤  Total Customers" textFill="#aaaacc">
+                        <font><Font size="12.0" /></font>
+                    </Label>
+                    <Label fx:id="lblHomeTotalCustomers" layoutX="16.0" layoutY="42.0" text="—" textFill="WHITE">
+                        <font><Font name="System Bold" size="30.0" /></font>
+                    </Label>
+                    <Label layoutX="16.0" layoutY="84.0" text="registered customers" textFill="#555870">
+                        <font><Font size="11.0" /></font>
+                    </Label>
+                </AnchorPane>
+
+                <!-- Stat Card: Items -->
+                <AnchorPane layoutX="335.0" layoutY="105.0" prefHeight="110.0" prefWidth="230.0"
+                            style="-fx-background-color:#2d3e50; -fx-background-radius:14;">
+                    <Label layoutX="16.0" layoutY="14.0" text="📦  Total Items" textFill="#aaaacc">
+                        <font><Font size="12.0" /></font>
+                    </Label>
+                    <Label fx:id="lblHomeTotalItems" layoutX="16.0" layoutY="42.0" text="—" textFill="WHITE">
+                        <font><Font name="System Bold" size="30.0" /></font>
+                    </Label>
+                    <Label layoutX="16.0" layoutY="84.0" text="items in inventory" textFill="#555870">
+                        <font><Font size="11.0" /></font>
+                    </Label>
+                </AnchorPane>
+
+                <!-- Stat Card: Suppliers -->
+                <AnchorPane layoutX="590.0" layoutY="105.0" prefHeight="110.0" prefWidth="230.0"
+                            style="-fx-background-color:#2d3e50; -fx-background-radius:14;">
+                    <Label layoutX="16.0" layoutY="14.0" text="🚚  Total Suppliers" textFill="#aaaacc">
+                        <font><Font size="12.0" /></font>
+                    </Label>
+                    <Label fx:id="lblHomeTotalSuppliers" layoutX="16.0" layoutY="42.0" text="—" textFill="WHITE">
+                        <font><Font name="System Bold" size="30.0" /></font>
+                    </Label>
+                    <Label layoutX="16.0" layoutY="84.0" text="active suppliers" textFill="#555870">
+                        <font><Font size="11.0" /></font>
+                    </Label>
+                </AnchorPane>
+
+                <!-- Stat Card: Employees -->
+                <AnchorPane layoutX="845.0" layoutY="105.0" prefHeight="110.0" prefWidth="230.0"
+                            style="-fx-background-color:#2d3e50; -fx-background-radius:14;">
+                    <Label layoutX="16.0" layoutY="14.0" text="👨‍💻  Employees" textFill="#aaaacc">
+                        <font><Font size="12.0" /></font>
+                    </Label>
+                    <Label fx:id="lblHomeTotalEmployees" layoutX="16.0" layoutY="42.0" text="—" textFill="WHITE">
+                        <font><Font name="System Bold" size="30.0" /></font>
+                    </Label>
+                    <Label layoutX="16.0" layoutY="84.0" text="staff members" textFill="#555870">
+                        <font><Font size="11.0" /></font>
+                    </Label>
+                </AnchorPane>
+
+                <!-- Recent Orders label + table -->
+                <Label layoutX="80.0" layoutY="240.0" text="Recent Orders" textFill="WHITE">
+                    <font><Font name="System Bold" size="15.0" /></font>
+                </Label>
+                <TableView fx:id="tblHomeRecentOrders" layoutX="80.0" layoutY="265.0" prefHeight="185.0" prefWidth="1076.0">
+                    <columns>
+                        <TableColumn fx:id="colHomeOrderId"     prefWidth="200.0" text="Order ID" />
+                        <TableColumn fx:id="colHomeOrderCustId" prefWidth="250.0" text="Customer ID" />
+                        <TableColumn fx:id="colHomeOrderDate"   prefWidth="250.0" text="Date" />
+                    </columns>
+                </TableView>
+
+                <!-- Low Stock label + table -->
+                <Label layoutX="80.0" layoutY="472.0" text="⚠  Low Stock Items  (qty ≤ 5)" textFill="#ffcc66">
+                    <font><Font name="System Bold" size="14.0" /></font>
+                </Label>
+                <TableView fx:id="tblHomeLowStock" layoutX="80.0" layoutY="497.0" prefHeight="170.0" prefWidth="1076.0">
+                    <columns>
+                        <TableColumn fx:id="colHomeLowStockId"       prefWidth="150.0" text="Item ID" />
+                        <TableColumn fx:id="colHomeLowStockName"     prefWidth="300.0" text="Name" />
+                        <TableColumn fx:id="colHomeLowStockCategory" prefWidth="200.0" text="Category" />
+                        <TableColumn fx:id="colHomeLowStockQty"      prefWidth="150.0" text="Qty Left" />
+                    </columns>
+                </TableView>
             </children>
         </AnchorPane>
     </children>
