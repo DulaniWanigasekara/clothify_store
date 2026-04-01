@@ -15,13 +15,10 @@ import java.sql.SQLException;
 public class DashBoardService {
 
     DashBoardRepository dashBoardRepository = new DashBoardRepository();
+
     ObservableList<Item> orderItems = FXCollections.observableArrayList();
-    ObservableList<Customer> customers = FXCollections.observableArrayList();
-    ObservableList<Supplier> suppliers = FXCollections.observableArrayList();
-    ObservableList<Employee> employees = FXCollections.observableArrayList();
-    ObservableList<Item> items = FXCollections.observableArrayList();
-    ObservableList<Report> reports = FXCollections.observableArrayList();
-    ObservableList<Order> orders = FXCollections.observableArrayList();
+
+    //----------------- Order Cart -------------------
 
     public ObservableList<Item> getAllItem() {
         return orderItems;
@@ -29,18 +26,15 @@ public class DashBoardService {
 
     public ObservableList<Item> addItem(Item selectedItem, int orderQty) {
         if (selectedItem.getQty() >= orderQty) {
-            if (searchOrderItem(selectedItem, orderQty)) {
-                return orderItems;
-            }
+            if (searchOrderItem(selectedItem, orderQty)) return orderItems;
             selectedItem.setQty(orderQty);
-            selectedItem.setTotal((selectedItem.getPrice()) * orderQty);
+            selectedItem.setTotal(selectedItem.getPrice() * orderQty);
             orderItems.add(selectedItem);
             return orderItems;
         }
-        new Alert(Alert.AlertType.INFORMATION, "Not Available stock!").show();
+        new Alert(Alert.AlertType.INFORMATION, "Not enough stock available!").show();
         return orderItems;
     }
-
 
     public boolean searchOrderItem(Item selectedItem, int qty) {
         for (Item orderItem : orderItems) {
@@ -54,26 +48,29 @@ public class DashBoardService {
         return false;
     }
 
-
     public void deleteOrder(Item selectedItem) {
-        for (int i = 0; i < orderItems.size(); i++) {
-            if (orderItems.get(i).getId().equals(selectedItem.getId())) {
-                orderItems.remove(i);
+        orderItems.removeIf(item -> item.getId().equals(selectedItem.getId()));
+    }
+
+    public void updateOrder(Item selectedItem, int qty) {
+        for (Item item : orderItems) {
+            if (item.getId().equals(selectedItem.getId())) {
+                item.setQty(qty);
+                item.setTotal(item.getPrice() * qty);
                 break;
             }
         }
     }
 
-    public void updateOrder(Item selectedItem, int qty) {
-        for (Item item : orderItems) {
-            if ((item.getId()).equals((selectedItem.getId()))) {
-                item.setQty(qty);
-                item.setTotal((item.getPrice()) * qty);
-            }
-        }
+    public ObservableList<Item> cancelOrder() {
+        orderItems.clear();
+        return orderItems;
     }
 
+    //-------------------Customer -----------------------
+
     public ObservableList<Customer> getAllCustomer() {
+        ObservableList<Customer> customers = FXCollections.observableArrayList(); // ✅ local
         try {
             customers = dashBoardRepository.getAllCustomers();
         } catch (SQLException e) {
@@ -82,44 +79,32 @@ public class DashBoardService {
         return customers;
     }
 
-
-    public void addCustomer(Customer customer) {
+    public void addCustomer(Customer customer, ObservableList<Customer> customers) {
         try {
             dashBoardRepository.addCustomer(customer);
             customers.add(customer);
-            new Alert(Alert.AlertType.INFORMATION, "Customer Added successfully!").show();
+            new Alert(Alert.AlertType.INFORMATION, "Customer added successfully!").show();
         } catch (SQLException e) {
             new Alert(Alert.AlertType.WARNING, e.getMessage()).show();
         }
     }
 
-    public void deleteCustomer(Customer customer) {
+    public void deleteCustomer(Customer customer, ObservableList<Customer> customers) {
         try {
             dashBoardRepository.deleteCustomer(customer.getId());
-            for (int i = 0; i < customers.size(); i++) {
-                if (customers.get(i).getId().equals(customer.getId())) {
-                    customers.remove(i);
-                    break;
-                }
-            }
-            new Alert(Alert.AlertType.INFORMATION, "Customer Deleted successfully!").show();
+            customers.removeIf(c -> c.getId().equals(customer.getId()));
+            new Alert(Alert.AlertType.INFORMATION, "Customer deleted successfully!").show();
         } catch (SQLException e) {
             new Alert(Alert.AlertType.WARNING, e.getMessage()).show();
         }
     }
 
-    public void updateCustomer(Customer customer) {
+    public void updateCustomer(Customer customer, ObservableList<Customer> customers) {
         try {
             dashBoardRepository.updateCustomer(customer);
             for (int i = 0; i < customers.size(); i++) {
                 if (customers.get(i).getId().equals(customer.getId())) {
-                    customers.get(i).setTitle(customer.getTitle());
-                    customers.get(i).setName(customer.getName());
-                    customers.get(i).setEmail(customer.getEmail());
-                    customers.get(i).setAddress(customer.getAddress());
-                    customers.get(i).setCity(customer.getCity());
-                    customers.get(i).setProvince(customer.getProvince());
-                    customers.get(i).setPostalCode(customer.getPostalCode());
+                    customers.set(i, customer);
                     break;
                 }
             }
@@ -129,20 +114,23 @@ public class DashBoardService {
         }
     }
 
+    // --------------Supplier-------------------------------------
+
     public ObservableList<Supplier> getAllSupplier() {
+        ObservableList<Supplier> suppliers = FXCollections.observableArrayList(); // ✅ local
         try {
-            ResultSet allSupplier = dashBoardRepository.getAllSupplier();
-            while (allSupplier.next()) {
+            ResultSet rs = dashBoardRepository.getAllSupplier();
+            while (rs.next()) {
                 suppliers.add(new Supplier(
-                        allSupplier.getString("supplier_id"),
-                        allSupplier.getString("name"),
-                        allSupplier.getString("company_name"),
-                        allSupplier.getString("address"),
-                        allSupplier.getString("city"),
-                        allSupplier.getString("province"),
-                        allSupplier.getString("postal_code"),
-                        allSupplier.getString("phone"),
-                        allSupplier.getString("email")
+                        rs.getString("supplier_id"),
+                        rs.getString("name"),
+                        rs.getString("company_name"),
+                        rs.getString("address"),
+                        rs.getString("city"),
+                        rs.getString("province"),
+                        rs.getString("postal_code"),
+                        rs.getString("phone"),
+                        rs.getString("email")
                 ));
             }
         } catch (SQLException e) {
@@ -151,32 +139,27 @@ public class DashBoardService {
         return suppliers;
     }
 
-    public void addSupplier(Supplier supplier) {
+    public void addSupplier(Supplier supplier, ObservableList<Supplier> suppliers) {
         try {
             dashBoardRepository.addSupplier(supplier);
             suppliers.add(supplier);
-            new Alert(Alert.AlertType.INFORMATION, "Supplier Added successfully!").show();
+            new Alert(Alert.AlertType.INFORMATION, "Supplier added successfully!").show();
         } catch (SQLException e) {
             new Alert(Alert.AlertType.WARNING, e.getMessage()).show();
         }
     }
 
-    public void deleteSupplier(String id) {
+    public void deleteSupplier(String id, ObservableList<Supplier> suppliers) {
         try {
             dashBoardRepository.deleteSupplier(id);
-            for (int i = 0; i < suppliers.size(); i++) {
-                if (suppliers.get(i).getId().equals(id)) {
-                    suppliers.remove(i);
-                    break;
-                }
-            }
-            new Alert(Alert.AlertType.INFORMATION, "Supplier Deleted successfully!").show();
+            suppliers.removeIf(s -> s.getId().equals(id));
+            new Alert(Alert.AlertType.INFORMATION, "Supplier deleted successfully!").show();
         } catch (SQLException e) {
             new Alert(Alert.AlertType.WARNING, e.getMessage()).show();
         }
     }
 
-    public void updateSupplier(Supplier supplier) {
+    public void updateSupplier(Supplier supplier, ObservableList<Supplier> suppliers) {
         try {
             dashBoardRepository.updateSupplier(supplier);
             for (int i = 0; i < suppliers.size(); i++) {
@@ -185,27 +168,30 @@ public class DashBoardService {
                     break;
                 }
             }
-            new Alert(Alert.AlertType.INFORMATION, "Supplier Update successfully!").show();
+            new Alert(Alert.AlertType.INFORMATION, "Supplier updated successfully!").show();
         } catch (SQLException e) {
             new Alert(Alert.AlertType.WARNING, e.getMessage()).show();
         }
     }
 
+    // ---------------------------Employee---------------------
+
     public ObservableList<Employee> getAllEmployee() {
+        ObservableList<Employee> employees = FXCollections.observableArrayList(); // ✅ local
         try {
-            ResultSet resultSet = dashBoardRepository.getAllEmployees();
-            while (resultSet.next()) {
+            ResultSet rs = dashBoardRepository.getAllEmployees();
+            while (rs.next()) {
                 employees.add(new Employee(
-                        resultSet.getString("id"),
-                        resultSet.getString("name"),
-                        resultSet.getString("nic"),
-                        resultSet.getString("dob"),
-                        resultSet.getString("position"),
-                        resultSet.getDouble("salary"),
-                        resultSet.getString("contact_number"),
-                        resultSet.getString("address"),
-                        resultSet.getString("joined_date"),
-                        resultSet.getString("status")
+                        rs.getString("id"),
+                        rs.getString("name"),
+                        rs.getString("nic"),
+                        rs.getString("dob"),
+                        rs.getString("position"),
+                        rs.getDouble("salary"),
+                        rs.getString("contact_number"),
+                        rs.getString("address"),
+                        rs.getString("joined_date"),
+                        rs.getString("status")
                 ));
             }
         } catch (SQLException e) {
@@ -214,26 +200,27 @@ public class DashBoardService {
         return employees;
     }
 
-    public void addEmployee(Employee employee) {
+    public void addEmployee(Employee employee, ObservableList<Employee> employees) {
         try {
             dashBoardRepository.addEmployee(employee);
             employees.add(employee);
-            new Alert(Alert.AlertType.INFORMATION, "employee Added successfully!").show();
+            new Alert(Alert.AlertType.INFORMATION, "Employee added successfully!").show();
         } catch (SQLException e) {
             new Alert(Alert.AlertType.WARNING, e.getMessage()).show();
         }
     }
 
-    public void deleteEmployee(Employee selectedItem) {
+    public void deleteEmployee(Employee employee, ObservableList<Employee> employees) {
         try {
-            dashBoardRepository.deleteEmployee(selectedItem.getId());
-            employees.remove(selectedItem);
+            dashBoardRepository.deleteEmployee(employee.getId());
+            employees.remove(employee);
+            new Alert(Alert.AlertType.INFORMATION, "Employee deleted successfully!").show();
         } catch (SQLException e) {
             new Alert(Alert.AlertType.WARNING, e.getMessage()).show();
         }
     }
 
-    public void updateEmployee(Employee employee) {
+    public void updateEmployee(Employee employee, ObservableList<Employee> employees) {
         try {
             dashBoardRepository.updateEmployee(employee);
             for (int i = 0; i < employees.size(); i++) {
@@ -242,32 +229,45 @@ public class DashBoardService {
                     break;
                 }
             }
+            new Alert(Alert.AlertType.INFORMATION, "Employee updated successfully!").show();
         } catch (SQLException e) {
             new Alert(Alert.AlertType.WARNING, e.getMessage()).show();
         }
     }
 
-    public void addNewItem(Item item) {
+    // -------------------item--------------------------------------
+
+    public ObservableList<Item> getAllNewItem() {
+        ObservableList<Item> items = FXCollections.observableArrayList();
+        try {
+            items = dashBoardRepository.getAllItem();
+        } catch (SQLException e) {
+            new Alert(Alert.AlertType.WARNING, e.getMessage()).show();
+        }
+        return items;
+    }
+
+    public void addNewItem(Item item, ObservableList<Item> items) {
         try {
             dashBoardRepository.addNewItem(item);
-            new Alert(Alert.AlertType.INFORMATION, "Item Added successfully!").show();
             items.add(item);
+            new Alert(Alert.AlertType.INFORMATION, "Item added successfully!").show();
         } catch (SQLException e) {
             new Alert(Alert.AlertType.WARNING, e.getMessage()).show();
         }
     }
 
-    public void deleteItem(Item selectedItem) {
+    public void deleteItem(Item selectedItem, ObservableList<Item> items) {
         try {
             dashBoardRepository.deleteItem(selectedItem.getId());
             items.remove(selectedItem);
-            new Alert(Alert.AlertType.INFORMATION, "Item Deleted successfully!").show();
+            new Alert(Alert.AlertType.INFORMATION, "Item deleted successfully!").show();
         } catch (SQLException e) {
             new Alert(Alert.AlertType.WARNING, e.getMessage()).show();
         }
     }
 
-    public void updateItem(Item item) {
+    public void updateItem(Item item, ObservableList<Item> items) {
         try {
             dashBoardRepository.updateItem(item);
             for (int i = 0; i < items.size(); i++) {
@@ -282,54 +282,115 @@ public class DashBoardService {
         }
     }
 
-    public ObservableList<Item> getAllNewItem() {
+    // ----------------orders-----------------------------------
+
+    private String getOrderId() {
         try {
-            items = dashBoardRepository.getAllItem();
+            ResultSet rs = dashBoardRepository.getLastOrderId();
+            if (rs.next()) {
+                String lastId = rs.getString("OrderID"); // e.g. "ORD007"
+                int number = Integer.parseInt(lastId.replaceAll("[^0-9]", "")) + 1;
+                return String.format("ORD%03d", number);
+            }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            new Alert(Alert.AlertType.WARNING, "Could not generate Order ID: " + e.getMessage()).show();
         }
-        return items;
+        return "ORD001"; // default for first order
     }
 
-    public ObservableList<Item> cancelOrder() {
-        orderItems.clear();
-        return orderItems;
-    }
-
-    public void placeOrder(ObservableList<Item> placeOrders, String id, double discount, String date) {
+    public void placeOrder(ObservableList<Item> placeOrders, String custId,
+                           double discount, String date) {
         Connection connection = null;
-
         try {
             connection = DBConnection.getInstance().getConnection();
             connection.setAutoCommit(false);
+
             String orderId = getOrderId();
 
-            if (!dashBoardRepository.addOrder(orderId, id, Date.valueOf(date))) {
+            if (!dashBoardRepository.addOrder(orderId, custId, Date.valueOf(date))) {
                 connection.rollback();
+                new Alert(Alert.AlertType.ERROR, "Failed to create order record.").show();
                 return;
             }
 
             if (!dashBoardRepository.addOrderDetails(placeOrders, discount, orderId)) {
                 connection.rollback();
+                new Alert(Alert.AlertType.ERROR, "Failed to save order details.").show();
                 return;
             }
 
             if (!dashBoardRepository.changeStock(placeOrders)) {
                 connection.rollback();
+                new Alert(Alert.AlertType.ERROR, "Failed to update stock.").show();
                 return;
             }
 
             connection.commit();
-            new Alert(Alert.AlertType.INFORMATION, "Order placed successfully!").show();
+            new Alert(Alert.AlertType.INFORMATION, "Order placed successfully! ID: " + orderId).show();
+
         } catch (SQLException e) {
-            new Alert(Alert.AlertType.INFORMATION, e.getMessage()).show();
+            try {
+                if (connection != null) connection.rollback();
+            } catch (SQLException ex) { /* ignore */ }
+            new Alert(Alert.AlertType.ERROR, "Order failed: " + e.getMessage()).show();
         } finally {
             try {
                 if (connection != null) connection.setAutoCommit(true);
             } catch (SQLException e) {
-                new Alert(Alert.AlertType.ERROR, "Failed to place order!").show();
+                new Alert(Alert.AlertType.ERROR, "DB reset failed: " + e.getMessage()).show();
             }
         }
     }
 
+    // -------------History-------------------------------------------
+
+    public ObservableList<Report> getOrdersByDate(java.time.LocalDate date) {
+        ObservableList<Report> reports = FXCollections.observableArrayList();
+        try {
+            ResultSet rs = dashBoardRepository.getOrdersByDate(date);
+            while (rs.next()) {
+                reports.add(new Report(
+                        rs.getString("OrderID"),
+                        rs.getString("CustID"),
+                        rs.getString("CustID") // name resolved separately in controller
+                ));
+            }
+        } catch (SQLException e) {
+            new Alert(Alert.AlertType.WARNING, e.getMessage()).show();
+        }
+        return reports;
+    }
+
+    public ObservableList<Order> getOrderItems(String orderId) {
+        ObservableList<Order> orderDetails = FXCollections.observableArrayList();
+        try {
+            ResultSet rs = dashBoardRepository.getAllOrderItem(orderId);
+            while (rs.next()) {
+                String itemId = rs.getString("ItemID");
+                int qty = rs.getInt("Qty");
+                double discount = rs.getDouble("Discount");
+
+                ResultSet itemRs = dashBoardRepository.getItem(itemId);
+                if (itemRs.next()) {
+                    double price = itemRs.getDouble("price");
+                    String name = itemRs.getString("name");
+                    double discountedPrice = price - (price * discount / 100);
+                    double totalPrice = discountedPrice * qty;
+                    orderDetails.add(new Order(name, qty, price, discountedPrice, totalPrice));
+                }
+            }
+        } catch (SQLException e) {
+            new Alert(Alert.AlertType.WARNING, e.getMessage()).show();
+        }
+        return orderDetails;
+    }
+
+    public boolean login(String username, String password) {
+        try {
+            return dashBoardRepository.login(username, password);
+        } catch (SQLException e) {
+            new Alert(Alert.AlertType.WARNING, e.getMessage()).show();
+            return false;
+        }
+    }
 }
