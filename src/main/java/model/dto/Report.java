@@ -8,7 +8,7 @@ import lombok.*;
 @NoArgsConstructor
 @ToString
 public class Report {
-    public String orderId;
-    public String customerId;
-    public String name;
+    private String orderId;
+    private String customerId;
+    private String name;
 }
