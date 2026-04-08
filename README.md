@@ -27,22 +27,6 @@ A desktop inventory and management application for a clothing store, built with 
 - MySQL database server
 - Maven 3.6+
 
-## Getting Started
-
-1. **Clone the repository**
-   ```bash
-   git clone https://github.com/DulaniWanigasekara/clothify_store.git
-   cd clothify_store
-   ```
-
-2. **Set up the database**  
-   Create a MySQL database and update the connection settings in `src/main/java/dbConnection/DBConnection.java`.
-
-3. **Build and run**
-   ```bash
-   mvn clean javafx:run
-   ```
-
 ## Project Structure
 
 ```
