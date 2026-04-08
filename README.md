@@ -1,6 +1,6 @@
 # Clothify Store
 
-A desktop inventory and management application for a clothing store, built with JavaFX and MySQL.
+A desktop inventory and management application for a clothing store, built with JavaFX and MySQL. A standalone application that automates the operations of a clothing store. The system handles product management, inventory updates, supplier and employee records, order processing, and basic reporting.
 
 ## Features
 
