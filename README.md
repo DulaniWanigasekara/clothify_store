@@ -4,12 +4,12 @@ A desktop inventory and management application for a clothing store, built with 
 
 ## Features
 
+- **Dashboard** – Overview of store activity and reports
 - **Customer Management** – Add and manage customer records (name, contact, address)
 - **Employee Management** – Track employee details, positions, salaries, and status
 - **Inventory Management** – Manage clothing items by category, size, price, and availability
 - **Order Processing** – Handle orders with discount and total price calculations
 - **Supplier Management** – Maintain supplier information
-- **Dashboard** – Overview of store activity and reports
 - **Report** – Basic sales and inventory summary reports
 
 ## Tech Stack
