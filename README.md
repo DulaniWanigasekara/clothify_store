@@ -6,7 +6,7 @@ A desktop inventory and management application for a clothing store, built with 
 
 - **Login** - User can login by giving email and password
 - **Dashboard** – Overview of store activity and reports
-- **Customer Management** – Add and manage customer records (name, contact, address)
+- **Customer Management** – Add and manage customer records (name, contact, email, address)
 - **Employee Management** – Track employee details, positions, salaries, and status
 - **Inventory Management** – Manage clothing items by category, size, price, and availability
 - **Order Processing** – Handle orders with discount and total price calculations
