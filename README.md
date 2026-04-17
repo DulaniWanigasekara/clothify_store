@@ -1,6 +1,6 @@
 # Clothify Store - KAIA Clothing
 
-A desktop inventory and management application for a clothing store, built with JavaFX and MySQL. A standalone application that automates the operations of a clothing store. The system handles product management, inventory updates, supplier and employee records, order processing, basic reporting and represent a complete user friendly point of sale experience.
+A desktop inventory and management application for a clothing store, built with JavaFX and MySQL. A standalone application that automates the operations of a clothing store named KAIA. The system handles product management, inventory updates, supplier and employee records, order processing, basic reporting and represent a complete user friendly point of sale experience.
 
 ## Features
 
