@@ -11,7 +11,7 @@ A desktop inventory and management application for a clothing store, built with 
 - **Inventory Management** – Manage clothing items by category, size, price, and availability
 - **Order Processing** – Handle orders with discount and total price calculations
 - **Supplier Management** – Maintain supplier information
-- **Report** – Basic sales and inventory summary reports
+- **Sales Report** – Basic sales and inventory summary reports
 
 ## Tech Stack
 
